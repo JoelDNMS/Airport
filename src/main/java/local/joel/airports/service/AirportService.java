@@ -6,7 +6,9 @@ package local.joel.airports.service;
 
 import java.util.List;
 import local.joel.airports.DTO.AirportMinDTO;
+import local.joel.airports.DTO.AirportNearMeDTO;
 import local.joel.airports.entities.Airport;
+import local.joel.airports.projections.AirportNearMeProjection;
 import local.joel.airports.repositories.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,4 +49,20 @@ public class AirportService {
         return result;
 
 }
+        /**
+        * Retorna DTO AirportNearMe
+        *
+        * @param latitude
+        * @param longitude
+        * @return
+        */
+    public List<AirportNearMeDTO> findNearMe(double latitude, double longitude) {
+    List<AirportNearMeProjection> resultNearAirports = airportRepository.findNearMe(latitude, longitude);
+
+    List<AirportNearMeDTO> resultDTO = resultNearAirports.stream()
+        .map(x -> new AirportNearMeDTO(x)).toList();
+
+    return resultDTO;
+    }
+
 }
